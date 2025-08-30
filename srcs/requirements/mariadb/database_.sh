@@ -27,7 +27,7 @@ EOSQL
     wait $pid
 fi
 
-# ✅ Start MariaDB in foreground (keeps container alive)
+# Start MariaDB in foreground (keeps container alive)
 exec mysqld_safe --datadir="$DATADIR"
 
 
