@@ -6,12 +6,17 @@ services:
     context: requirments/maridb
     env_file: .env
     network:
-    - inception
+     - inception
     dockerfile: Dockerfile
+    environment:
+      -SQL_DATABASE=${SQL_DATABASE}
+      -SQL_USER=${SQL_USER}
+      -SQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      -SQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD}
     volumes: 
-    - mariadb:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     restart: unless-stopped
-    expose: 3306
+    expose: "3306"
 # ////////////////
   nginx:
     context: requirments/nginx
@@ -19,27 +24,32 @@ services:
     container_name: nginx
     env_file: .env
     network:
-    - inception
+      - inception
     dockerfile: Dockerfile
     volumes: 
-    - wordpress:/var/www/html
+     - wordpress:/var/www/html
     restart: on-failure
     depends_on: wordpress
-    expose: 443:443
+    expose: "443:443"
 # ////////////////
   wordpress:
     context: requirments/nginx
     build: 
     container_name: wordpress
     env_file: .env
+    environment:
+      -WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
+      -WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
+      -WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
+      -WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
     network:
-    - inception
+      - inception
     dockerfile: Dockerfile
     volumes: 
-    - wordpress:/var/www/html
+      - wordpress:/var/www/html
     restart: on-failure
     depends_on: wordpress
-    expose: 9000
+    expose: "9000"
 
 volumes:
   wordpress:

@@ -1,11 +1,5 @@
 FROM debian:12
 
-ENV DEBIAN_FRONTEND=noninteractive
-ENV SQL_ROOT_PASSWORD=rootpass
-ENV SQL_DATABASE=wp_db
-ENV SQL_USER=wp_user
-ENV SQL_PASSWORD=wp_pass
-
 RUN apt update && apt install -y mariadb-server 
 
 COPY 50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
@@ -14,5 +8,4 @@ COPY database_.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/database_.sh
 ENTRYPOINT ["/usr/local/bin/database_.sh"]
 
-# CMD ["mysqld"]
 

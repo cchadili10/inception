@@ -1,4 +1,9 @@
-define('DB_NAME', 'wp_db');
-define('DB_USER', 'wpuser');
-define('DB_PASSWORD', 'wp_pass');
-define('', 'wp_pass');
+<?php
+
+define('DB_NAME',     getenv('WORDPRESS_DB_NAME'));
+define('DB_USER',     getenv('WORDPRESS_DB_USER'));
+define('DB_PASSWORD', getenv('WORDPRESS_DB_PASSWORD');
+define('DB_HOST',     getenv('WORDPRESS_DB_HOST'));
+define('DB_CHARSET',  'utf8mb4');
+define('DB_COLLATE',  '');
+>
