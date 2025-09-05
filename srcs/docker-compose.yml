@@ -1,63 +1,74 @@
 version: '3.2'
 services:
   mariadb:
-    container_name: nginx
+    container_name: mariadb
     build: 
-    context: requirments/maridb
+      context: requirements/mariadb
+      dockerfile: Dockerfile
     env_file: .env
-    network:
+    networks:
      - inception
-    dockerfile: Dockerfile
     environment:
-      -SQL_DATABASE=${SQL_DATABASE}
-      -SQL_USER=${SQL_USER}
-      -SQL_PASSWORD=${WORDPRESS_DB_PASSWORD}
-      -SQL_ROOT_PASSWORD=${SQL_ROOT_PASSWORD}
+      SQL_DATABASE: ${SQL_DATABASE}
+      SQL_USER: ${SQL_USER}
+      SQL_PASSWORD: ${SQL_PASSWORD}
+      SQL_ROOT_PASSWORD: ${SQL_ROOT_PASSWORD}
     volumes: 
       - mariadb:/var/lib/mysql
     restart: unless-stopped
-    expose: "3306"
+    expose: 
+      - "3306"
 # ////////////////
   nginx:
-    context: requirments/nginx
-    build: 
     container_name: nginx
+    build: 
+      context: requirements/nginx
+      dockerfile: Dockerfile
     env_file: .env
-    network:
+    networks:
       - inception
-    dockerfile: Dockerfile
     volumes: 
      - wordpress:/var/www/html
     restart: on-failure
-    depends_on: wordpress
-    expose: "443:443"
+    depends_on: 
+      - wordpress
+    ports:
+      - "443:443"
 # ////////////////
   wordpress:
-    context: requirments/nginx
-    build: 
     container_name: wordpress
+    build: 
+      context: requirements/wordpress
+      dockerfile: Dockerfile
     env_file: .env
     environment:
-      -WORDPRESS_DB_NAME=${WORDPRESS_DB_NAME}
-      -WORDPRESS_DB_USER=${WORDPRESS_DB_USER}
-      -WORDPRESS_DB_PASSWORD=${WORDPRESS_DB_PASSWORD}
-      -WORDPRESS_DB_HOST=${WORDPRESS_DB_HOST}
-    network:
+      WORDPRESS_DB_NAME: ${WORDPRESS_DB_NAME}
+      WORDPRESS_DB_USER: ${WORDPRESS_DB_USER}
+      WORDPRESS_DB_PASSWORD: ${WORDPRESS_DB_PASSWORD}
+      WORDPRESS_DB_HOST: ${WORDPRESS_DB_HOST}
+      URL: ${URL}
+      TITLE: ${TITLE} 
+      EMAILADMINE: ${EMAILADMINE}
+      ADMINUSER: ${ADMINUSER}
+      ADMINPASSWORD: ${ADMINPASSWORD} 
+
+    networks:
       - inception
-    dockerfile: Dockerfile
     volumes: 
       - wordpress:/var/www/html
     restart: on-failure
-    depends_on: wordpress
-    expose: "9000"
+    depends_on:
+      - mariadb
+    expose: 
+      - "9000"
 
 volumes:
-  wordpress:
-  mariadb:
+  wordpress: {}
+  mariadb: {}
 
 networks:
   inception:
-  driver: bridge
+    driver: bridge
 
 
 
