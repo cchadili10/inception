@@ -68,25 +68,30 @@ services:
       - "9000"
 
   ftp:
-    image: fauria/vsftpd
     container_name: ftp
+    build:
+      context: requirements/ftp
+      dockerfile: Dockerfile
+    # image: fauria/vsftpd
     ports:
       - "21:21"
       - "21000-21010:21000-21010"
     environment :
       FTP_USER: ftpuser
       FTP_PASS: ftppass
-      PASV_ADDRESS: 127.0.0.1 
       PASV_MIN_PORT: 21000
       PASV_MAX_PORT: 21010
     volumes:
-      - wordpress:/home/vsftpd/ftpuser
+      - wordpress:/home/ftpuser
     restart: unless-stopped
     networks:
       - inception
 
   adminer:
-    image: adminer
+    container_name: adminer
+    build:
+      context: requirements/adminer
+      dockerfile: Dockerfile
     ports:
       - "8080:8080"
     environment:

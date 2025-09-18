@@ -1,8 +1,8 @@
-all: 
+all: build
 	sudo docker compose  -f ./srcs/docker-compose.yml up 
 
-build:
+build: clean
 	sudo docker compose  -f ./srcs/docker-compose.yml build 
 
-clean: 
+clean:
 	sudo docker compose -f ./srcs/docker-compose.yml down -v
