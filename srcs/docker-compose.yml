@@ -67,6 +67,17 @@ services:
     expose: 
       - "9000"
 
+  redis:
+    container_name: redis
+    build: 
+      context: requirements/redis
+      dockerfile: Dockerfile
+    networks:
+      - inception
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
   ftp:
     container_name: ftp
     build:
@@ -102,8 +113,11 @@ services:
       - inception
 
   portainer:
-    image: portainer/portainer-ce:2.20.2
+    # image:  portainer/portainer-ce:2.34.0-alpine
     container_name: portainer
+    build:
+      context: requirements/portainer
+      dockerfile: Dockerfile
     restart: always
     ports:
       - "9090:9000"
@@ -111,6 +125,16 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer_data:/data
+    networks:
+      - inception
+  website:
+    container_name: website
+    build:
+      context: requirements/website
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: unless-stopped
 
   
 

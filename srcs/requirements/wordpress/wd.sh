@@ -1,6 +1,6 @@
 #!/bin/bash
 sleep 5
-service redis-server start
+# service redis-server start
 cd /var/www/html
 
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
