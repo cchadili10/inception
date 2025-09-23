@@ -2,6 +2,11 @@
 sleep 5
 # service redis-server start
 cd /var/www/html
+WORDPRESS_DB_PASSWORD=$(cat /run/secrets/w_sql_password)
+ADMINPASSWORD=$(cat /run/secrets/adminPass)
+PASSWORD=$(cat /run/secrets/userPass)
+
+echo "wwwwwwwwww------> $PASSWORD $ADMINPASSWORD $WORDPRESS_DB_PASSWORD"
 
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
