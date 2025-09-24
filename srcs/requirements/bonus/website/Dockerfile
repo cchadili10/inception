@@ -4,9 +4,9 @@ FROM debian:12
 WORKDIR /var/www/html
 
 RUN apt update && apt install -y nginx
-COPY  nginx.conf /etc/nginx/nginx.conf
+COPY  conf/nginx.conf /etc/nginx/nginx.conf
 
-COPY index/ .
+COPY tools/ .
 EXPOSE 80
 
 CMD [ "nginx", "-g", "daemon off;" ]

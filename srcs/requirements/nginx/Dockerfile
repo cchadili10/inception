@@ -1,14 +1,15 @@
 FROM debian:12
 
-RUN rm -f /var/www/html/index.html
-RUN apt update && apt install -y nginx openssl 
-COPY  nginx.conf /etc/nginx/nginx.conf
-COPY inception.crt /etc/nginx/ssl/inception.crt
-COPY inception.key /etc/nginx/ssl/inception.key
+
+RUN apt update && apt install -y nginx openssl
+COPY  conf/nginx.conf /etc/nginx/nginx.conf
+
+COPY  tools/spt.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/spt.sh
 
 EXPOSE 443
 
 RUN chmod 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
-CMD [ "nginx", "-g", "daemon off;" ]
+CMD ["spt.sh"]
