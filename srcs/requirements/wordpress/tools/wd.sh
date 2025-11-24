@@ -6,7 +6,7 @@ WORDPRESS_DB_PASSWORD=$(cat /run/secrets/w_sql_password)
 ADMINPASSWORD=$(cat /run/secrets/adminPass)
 PASSWORD=$(cat /run/secrets/userPass)
 
-echo "wwwwwwwwww------> $PASSWORD $ADMINPASSWORD $WORDPRESS_DB_PASSWORD"
+# echo "wwwwwwwwww------> $PASSWORD $ADMINPASSWORD $WORDPRESS_DB_PASSWORD"
 
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
@@ -18,7 +18,7 @@ wp config create \
     --dbpass=$WORDPRESS_DB_PASSWORD \
     --dbhost=$WORDPRESS_DB_HOST \
     --allow-root
-wp config set WP_REDIS_HOST $URL --type=constant --allow-root 
+wp config set WP_REDIS_HOST redis --type=constant --allow-root 
 wp config set WP_REDIS_PORT  6379 --type=constant --allow-root 
 wp config set WP_REDIS_DATABASE 0 --type=constant --allow-root 
 wp core install --url=${URL} --title=${TITLE} --admin_user=${ADMINUSER} --admin_password=${ADMINPASSWORD} --admin_email=${EMAILADMINE} --allow-root

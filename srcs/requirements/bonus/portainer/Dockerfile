@@ -11,4 +11,4 @@ RUN curl -L https://github.com/portainer/portainer/releases/download/2.20.3/port
 
 EXPOSE 9000
 
-CMD ["portainer"]
+ENTRYPOINT ["portainer"]

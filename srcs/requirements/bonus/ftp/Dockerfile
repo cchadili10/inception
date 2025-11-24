@@ -22,4 +22,4 @@ EOF
 
 EXPOSE 21 21000-21010
 
-CMD ["/usr/sbin/vsftpd", "/etc/vsftpd.conf"]
+ENTRYPOINT ["/usr/sbin/vsftpd", "/etc/vsftpd.conf"]

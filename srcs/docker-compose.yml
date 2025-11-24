@@ -6,6 +6,7 @@ services:
     build: 
       context: requirements/mariadb
       dockerfile: Dockerfile
+    image: mariadb
     secrets:
       - sql_password
       - sql_root_password
@@ -19,21 +20,20 @@ services:
       SQL_ROOT_PASSWORD_FILE: /run/secrets/sql_root_password
     volumes: 
       - mariadb:/var/lib/mysql
-    restart: unless-stopped
-    expose: 
-      - "3306"
+    restart: always
 
   nginx:
     container_name: nginx
     build: 
       context: requirements/nginx
       dockerfile: Dockerfile
+    image: nginx
     env_file: .env
     networks:
       - inception
     volumes: 
      - wordpress:/var/www/html
-    restart: on-failure
+    restart: always
     depends_on: 
       - wordpress
     ports:
@@ -44,6 +44,7 @@ services:
     build: 
       context: requirements/wordpress
       dockerfile: Dockerfile
+    image: wordpress
     secrets:
       - w_sql_password
       - userPass
@@ -71,26 +72,23 @@ services:
     restart: on-failure
     depends_on:
       - mariadb
-    expose: 
-      - "9000"
 
   redis:
     container_name: redis
     build: 
       context: requirements/bonus/redis
       dockerfile: Dockerfile
+    image: redis
     networks:
       - inception
-    ports:
-      - "6379:6379"
-    restart: unless-stopped
+    restart: always
 
   ftp:
     container_name: ftp
     build:
       context: requirements/bonus/ftp
       dockerfile: Dockerfile
-    # image: fauria/vsftpd
+    image: ftp
     secrets:
       - ftpPass
     ports:
@@ -104,7 +102,7 @@ services:
       PASV_MAX_PORT: 21010
     volumes:
       - wordpress:/home/ftpuser
-    restart: unless-stopped
+    restart: always
     networks:
       - inception
 
@@ -113,6 +111,7 @@ services:
     build:
       context: requirements/bonus/adminer
       dockerfile: Dockerfile
+    image: adminer
     ports:
       - "8080:8080"
     environment:
@@ -123,11 +122,11 @@ services:
       - inception
 
   portainer:
-    # image:  portainer/portainer-ce:2.34.0-alpine
     container_name: portainer
     build:
       context: requirements/bonus/portainer
       dockerfile: Dockerfile
+    image: portainer
     restart: always
     ports:
       - "9090:9000"
@@ -143,17 +142,29 @@ services:
     build:
       context: requirements/bonus/website
       dockerfile: Dockerfile
+    image: website
     ports:
       - "80:80"
-    restart: unless-stopped
+    restart: always
     networks:
       - inception
 
   
 
 volumes:
-  wordpress: {}
-  mariadb: {}
+  wordpress:
+    driver : local
+    driver_opts :
+      type : none
+      o : bind
+      device : /home/hchadili/data/wordpress
+  mariadb:
+    driver : local
+    driver_opts :
+      type : none
+      o : bind
+      device : /home/hchadili/data/mariadb
+
   portainer_data: {}
 
 networks:
