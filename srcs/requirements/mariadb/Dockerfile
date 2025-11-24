@@ -6,4 +6,4 @@ COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/50-server.cnf
 EXPOSE 3306
 COPY tools/database_.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/database_.sh
-CMD ["database_.sh"]
+ENTRYPOINT ["database_.sh"]
