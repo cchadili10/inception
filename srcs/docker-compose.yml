@@ -60,7 +60,7 @@ services:
       EMAILADMINE: ${EMAILADMINE}
       ADMINUSER: ${ADMINUSER}
       ADMINPASSWORD_FILE: /run/secrets/adminPass
-      ROLEADMIN: ${ROLE}
+      ROLEADMIN: ${ROLEADMIN}
       USERS: ${USERS}
       EMAILUSER: ${EMAILUSER}
       PASSWORD_FILE: /run/secrets/userPass
@@ -72,6 +72,7 @@ services:
     restart: on-failure
     depends_on:
       - mariadb
+      - redis
 
   redis:
     image: redis

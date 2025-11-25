@@ -3,10 +3,10 @@ FROM debian:12
 
 RUN apt update && apt install -y vsftpd ftp
 
-RUN useradd -m ftpuser && echo "ftpuser:ftppass" | chpasswd
+# RUN useradd -m ftpuser && echo "ftpuser:ftppass" | chpasswd
 
 RUN mkdir -p /home/ftpuser
-RUN chown -R ftpuser:ftpuser /home/ftpuser
+# RUN chown -R ftpuser:ftpuser /home/ftpuser
 RUN mkdir -p /var/run/vsftpd/empty
 RUN chmod 755 /var/run/vsftpd/empty
 
@@ -19,7 +19,9 @@ pasv_max_port=21010
 pasv_enable=YES
 write_enable=YES
 EOF
+COPY tools/scp.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/scp.sh
 
 EXPOSE 21 21000-21010
 
-ENTRYPOINT ["/usr/sbin/vsftpd", "/etc/vsftpd.conf"]
+ENTRYPOINT ["scp.sh"]

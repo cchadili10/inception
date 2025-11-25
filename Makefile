@@ -1,8 +1,14 @@
+
+
 all: build
-	sudo docker compose  -f ./srcs/docker-compose.yml up 
+	mkdir -p /home/hchadili/data/wordpress
+	mkdir -p /home/hchadili/data/mariadb
+	sudo docker compose  -f ./srcs/docker-compose.yml up
+	
 
 build: clean
 	sudo docker compose  -f ./srcs/docker-compose.yml build 
+	sudo docker image prune -f
 
 clean:
 	sudo docker compose -f ./srcs/docker-compose.yml down 
