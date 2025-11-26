@@ -130,7 +130,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     ports:
-      - "9090:9000"
+      - "9000:9000"
       - "9443:9443"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -166,7 +166,12 @@ volumes:
       o : bind
       device : /home/hchadili/data/mariadb
 
-  portainer_data: {}
+  portainer_data:
+    driver : local
+    driver_opts :
+      type : none
+      o : bind
+      device : /home/hchadili/data/portainer
 
 networks:
   inception:

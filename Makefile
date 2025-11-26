@@ -3,6 +3,7 @@
 all: build
 	mkdir -p /home/hchadili/data/wordpress
 	mkdir -p /home/hchadili/data/mariadb
+	mkdir -p /home/hchadili/data/portainer
 	sudo docker compose  -f ./srcs/docker-compose.yml up
 	
 
