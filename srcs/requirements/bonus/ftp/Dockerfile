@@ -21,8 +21,7 @@ write_enable=YES
 
 chroot_local_user=YES
 allow_writeable_chroot=YES
-local_umask=022
-file_open_mode=0755
+
 seccomp_sandbox=NO
 
 EOF
