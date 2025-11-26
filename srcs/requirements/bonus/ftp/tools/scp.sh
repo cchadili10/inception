@@ -8,4 +8,5 @@ fi
 echo "$FTPUSER:$password" | chpasswd
 chown -R "$FTPUSER":"$FTPUSER" /home/ftpuser
 
+
 exec /usr/sbin/vsftpd /etc/vsftpd.conf

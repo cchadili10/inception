@@ -18,6 +18,13 @@ pasv_min_port=21000
 pasv_max_port=21010
 pasv_enable=YES
 write_enable=YES
+
+chroot_local_user=YES
+allow_writeable_chroot=YES
+local_umask=022
+file_open_mode=0755
+seccomp_sandbox=NO
+
 EOF
 COPY tools/scp.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/scp.sh
