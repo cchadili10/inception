@@ -1,6 +1,6 @@
 #!/bin/bash
-sleep 5
-# service redis-server start
+sleep 7
+
 cd /var/www/html
 WORDPRESS_DB_PASSWORD=$(cat /run/secrets/w_sql_password)
 ADMINPASSWORD=$(cat /run/secrets/adminPass)
@@ -29,6 +29,7 @@ if [ ! -f wp-config.php ]; then
     wp plugin install redis-cache --activate --allow-root
     sleep 2
     wp redis enable --allow-root
+    wp option update permalink_structure '/%postname%/' --allow-root
     echo "WordPress installation complete!"
 else
     echo "WordPress already installed, skipping setup..."

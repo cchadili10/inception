@@ -12,4 +12,4 @@ EXPOSE 443
 RUN chmod 755 /var/www/html
 RUN chown -R www-data:www-data /var/www/html
 
-CMD ["spt.sh"]
+ENTRYPOINT ["spt.sh"]

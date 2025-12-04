@@ -1,4 +1,4 @@
-version: '3.2'
+
 
 services:
   mariadb:
@@ -9,15 +9,13 @@ services:
       dockerfile: Dockerfile
     secrets:
       - sql_password
-      - sql_root_password
     env_file: .env
-    networks:
-     - inception
     environment:
       SQL_DATABASE: ${SQL_DATABASE}
       SQL_USER: ${SQL_USER}
       SQL_PASSWORD_FILE: /run/secrets/sql_password
-      SQL_ROOT_PASSWORD_FILE: /run/secrets/sql_root_password
+    networks:
+     - inception
     volumes: 
       - mariadb:/var/lib/mysql
     restart: always
@@ -69,7 +67,7 @@ services:
       - inception
     volumes: 
       - wordpress:/var/www/html
-    restart: on-failure
+    restart: always
     depends_on:
       - mariadb
       - redis
@@ -150,8 +148,6 @@ services:
     networks:
       - inception
 
-  
-
 volumes:
   wordpress:
     driver : local
@@ -179,8 +175,6 @@ networks:
 secrets:
   sql_password:
     file: secrets/sql_password.txt
-  sql_root_password:
-    file: secrets/sql_root_password.txt
   w_sql_password:
     file: secrets/w_sql_password.txt
   adminPass:
